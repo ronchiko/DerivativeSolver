@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DerivativeCalculator
+﻿namespace DerivativeCalculator
 {
     internal class BasicDerivativeNode : INode
     {
@@ -21,5 +15,6 @@ namespace DerivativeCalculator
         {
             return "1";
         }
+        public string GetValue() => Value;
     }
 }

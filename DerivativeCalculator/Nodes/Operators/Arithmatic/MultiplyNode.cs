@@ -1,5 +1,4 @@
-﻿using System;
-namespace DerivativeCalculator
+﻿namespace DerivativeCalculator
 {
     internal class MultiplyNode : OperatorNode
     {
@@ -7,7 +6,17 @@ namespace DerivativeCalculator
 
         public override string GetDerivative()
         {
-            return Left.GetDerivative() + "*" + Right.GetDerivative();
+            if(Left.GetType() == typeof(NumberNode))
+                return Left.GetValue() + "*" + Right.GetDerivative();
+            if (Right.GetType() == typeof(NumberNode))
+                return Left.GetDerivative() + "*" + Right.GetValue();
+            return Left.GetDerivative() + "*" + Right.Value + "+" 
+                + Left.Value + "*" + Right.GetDerivative();
+        }
+
+        public override string GetValue()
+        {
+            return Left.GetValue() + "*" + Right.GetValue();
         }
     }
 }

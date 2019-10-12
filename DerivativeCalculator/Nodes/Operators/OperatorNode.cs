@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DerivativeCalculator
+﻿namespace DerivativeCalculator
 {
     internal abstract class OperatorNode : INode
     {
@@ -29,15 +23,16 @@ namespace DerivativeCalculator
         }
 
         public abstract string GetDerivative();
-
+        public abstract string GetValue();
         public static OperatorNode CreateBaseNode(char op)
         {
             switch (op)
             {
                 case '*': return new MultiplyNode();
                 case '+': return new AdditionNode();
+                case '^': return new PowerNode();
             }
-            throw new Exception(string.Format("No known operator {0}", op));
+            throw new System.Exception(string.Format("No known operator {0}", op));
         }
     }
 }

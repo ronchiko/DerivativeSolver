@@ -19,7 +19,9 @@ namespace DerivativeCalculator
 
         public string GetDerivative()
         {
-            return Value;
+            return "0";
         }
+
+        public string GetValue() => Value;
     }
 }

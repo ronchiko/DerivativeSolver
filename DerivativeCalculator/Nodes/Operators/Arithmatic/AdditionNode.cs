@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DerivativeCalculator
+﻿namespace DerivativeCalculator
 {
     internal class AdditionNode : OperatorNode
     {
@@ -13,6 +7,11 @@ namespace DerivativeCalculator
         public override string GetDerivative()
         {
             return Left.GetDerivative() + "+" + Right.GetDerivative(); 
+        }
+
+        public override string GetValue()
+        {
+            return Right.GetValue() + "+" + Left.GetValue();
         }
     }
 }

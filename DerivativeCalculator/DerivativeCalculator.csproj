@@ -36,12 +36,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cleaner\Cleaner.cs" />
+    <Compile Include="Cleaner\CleanerNode.cs" />
+    <Compile Include="Cleaner\Identifier.cs" />
     <Compile Include="DerivativeSolver.cs" />
     <Compile Include="Nodes\Basic\BasicDerivativeNode.cs" />
+    <Compile Include="Nodes\Basic\BracketsNode.cs" />
     <Compile Include="Nodes\Operators\Arithmatic\AdditionNode.cs" />
     <Compile Include="Nodes\Operators\Arithmatic\MultiplyNode.cs" />
     <Compile Include="Nodes\INode.cs" />
     <Compile Include="Nodes\Basic\NumberNode.cs" />
+    <Compile Include="Nodes\Operators\Arithmatic\PowerNode.cs" />
     <Compile Include="Nodes\Operators\OperatorNode.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
