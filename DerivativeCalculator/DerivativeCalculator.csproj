@@ -37,7 +37,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cleaner\Cleaner.cs" />
-    <Compile Include="Cleaner\CleanerNode.cs" />
+    <Compile Include="Cleaner\Nodes\CleanerNode.cs" />
+    <Compile Include="Cleaner\Nodes\CleanerOperatorNode.cs" />
+    <Compile Include="Cleaner\Nodes\ComplexCleanerNode.cs" />
+    <Compile Include="Cleaner\Nodes\ICleanerNode.cs" />
     <Compile Include="Cleaner\Identifier.cs" />
     <Compile Include="DerivativeSolver.cs" />
     <Compile Include="Nodes\Basic\BasicDerivativeNode.cs" />
@@ -49,6 +52,9 @@
     <Compile Include="Nodes\Operators\Arithmatic\PowerNode.cs" />
     <Compile Include="Nodes\Operators\OperatorNode.cs" />
     <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

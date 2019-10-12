@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DerivativeCalculator
 {
@@ -27,59 +24,83 @@ namespace DerivativeCalculator
 
         public static bool CanAdd(Identifier[] a, Identifier[] b)
         {
-            for (int i = 0; i < a.Length; i++)
+            if (a.Length != b.Length) return false;
+
+            Array.Sort(a);
+            Array.Sort(b);
+
+            int iterateLess = Math.Min(a.Length, b.Length);
+
+            for (int i = 0; i < iterateLess; i++)
             {
-                int count = 0;
-                for (int j = 0; j < b.Length; j++)
-                {
-                    if (a[i].IsEqual(b[j]))
-                    {
-                        count++;
-                    }
-                }
-                if (count != 1) return false;
+                if (!a[i].IsEqual(b[i])) return false;
             }
+
             return true;
         }
 
         public static Identifier[] Multiply(Identifier[] a, Identifier[] b)
         {
             List<Identifier> ids = new List<Identifier>();
-            for (int i = 0; i < a.Length; i++)
+            List<Identifier> pid = new List<Identifier>();
+            pid.AddRange(a);
+            pid.AddRange(b);
+
+            while (pid.Count > 0)
             {
-                bool found = false;
-                for (int j = 0; j < b.Length && !found; j++)
+                string _bt = pid[0].Base;
+                float _bp = pid[0].Power;
+                for (int i = 1; i < pid.Count; i++)
                 {
-                    if (b[j].Base == a[i].Base)
+                    if(_bt == pid[i].Base)
                     {
-                        ids.Add(new Identifier(b[j].Base, b[j].power + a[i].Power));
-                        found = true;
+                        _bp += pid[i].Power;
+                        pid.RemoveAt(i);
+                        i--;
                     }
                 }
-                if (!found) ids.Add(a[i]);
+                ids.Add(new Identifier(_bt, _bp));
+                pid.RemoveAt(0);
             }
+
             return ids.ToArray();
         }
         public static Identifier[] Divide(Identifier[] a, Identifier[] b)
         {
             List<Identifier> ids = new List<Identifier>();
-            for (int i = 0; i < a.Length; i++)
+            List<Identifier> pid = new List<Identifier>();
+            pid.AddRange(a);
+            pid.AddRange(b);
+
+            while (pid.Count > 0)
             {
-                bool found = false;
-                for (int j = 0; j < b.Length; j++)
+                string _bt = pid[0].Base;
+                float _bp = pid[0].Power;
+                for (int i = 1; i < pid.Count; i++)
                 {
-                    if (b[j].Base == a[i].Base)
+                    if (_bt == pid[i].Base)
                     {
-                        if(a[j].power - b[i].Power != 0) ids.Add(new Identifier(b[j].Base, a[j].power - b[i].Power));
-                        found = true;
+                        _bp -= pid[i].Power;
+                        pid.RemoveAt(i);
+                        i--;
                     }
                 }
-                if (!found) ids.Add(a[i]);
+                ids.Add(new Identifier(_bt, _bp));
+                pid.RemoveAt(0);
             }
 
             return ids.ToArray();
         }
 
+        public static Identifier[] Pow(Identifier[] a, float b)
+        {
+            Identifier[] r = new Identifier[a.Length];
+            for (int i = 0; i < a.Length; i++)
+            {
+                r[i] = new Identifier(a[i].Base, a[i].power * b);
+            }
+            return r;
+        }
         public override string ToString()
         {
             if (power == 1) return _base;
