@@ -1,6 +1,6 @@
 ﻿namespace DerivativeCalculator
 {
-    public interface ICleanerNode
+    internal interface ICleanerNode
     {
         bool IsEqual(ICleanerNode other);
     }
@@ -8,7 +8,7 @@
     /// <summary>
     /// A cleaner node that can be arithmaticly modified
     /// </summary>
-    public interface IComputableCleanerNode : ICleanerNode
+    internal interface IComputableCleanerNode : ICleanerNode
     {
         ICleanerNode Multiply(ICleanerNode a);
         ICleanerNode Add(ICleanerNode a);

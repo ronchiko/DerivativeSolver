@@ -3,7 +3,7 @@ using System.Text;
 
 namespace DerivativeCalculator
 {
-    public class CleanerNode : IComputableCleanerNode
+    internal class CleanerNode : IComputableCleanerNode
     {
         public static readonly Type CN_TYPE = typeof(CleanerNode);
 

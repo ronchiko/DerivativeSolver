@@ -4,14 +4,52 @@ namespace DerivativeCalculator
 {
     public class DerivativeSolver
     {
-        public static string GetDerivative(string func)
+        //1st derivative functions
+
+        /// <summary>
+        /// Returns the raw derivative of a function
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static string GetDerivativeRaw(string func)
         {
             func = func.Replace(" ", "");
             func = FixFunctionExpression(func);
 
             INode root = CreateNode(func);
 
-            return Cleaner.Clean(root.GetDerivative());
+            return root.GetDerivative();
+        }
+        /// <summary>
+        /// Returns the clean derivative of a function
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static string GetDerivative(string func)
+        {
+            return Cleaner.Clean(GetDerivativeRaw(func));
+        }
+        
+
+        //2nd derivative functions
+
+        /// <summary>
+        /// Returns the raw 2nd derivative of a function
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static string Get2ndDerivativeRaw(string func)
+        {
+            return GetDerivativeRaw(GetDerivativeRaw(func));
+        }
+        /// <summary>
+        /// Returns the clean 2nd derivative of a function
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        public static string Get2ndDerivative(string func)
+        {
+            return Cleaner.Clean(Get2ndDerivativeRaw(func));
         }
 
         private static INode CreateNode(string func)
@@ -62,7 +100,6 @@ namespace DerivativeCalculator
 
             return node;
         }
-
         private static byte GetOP(string op)
         {
             switch (op)
@@ -80,6 +117,13 @@ namespace DerivativeCalculator
             return 0;
         }
         
+
+        /// <summary>
+        /// Turns a human readable function expressio to a machine readable expression
+        /// (Mostly by inserting * signs)
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
         public static string FixFunctionExpression(string func)
         {
             StringBuilder sb = new StringBuilder(func);
@@ -107,6 +151,11 @@ namespace DerivativeCalculator
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Returns true if the number is readable for a computer
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
         public static bool IsLegalNumber(char c)
         {
             return char.IsDigit(c) || c == 'e';

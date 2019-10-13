@@ -6,7 +6,7 @@ namespace DerivativeCalculator
 {
     public static class Cleaner
     {
-        private static char[] Splitters = new char[]
+        internal static char[] Splitters = new char[]
         {
             '(', ')', '+', '-', '/', '*', '^'
         };
@@ -19,7 +19,7 @@ namespace DerivativeCalculator
             return 255;
         }
 
-        private static byte GetOV(char op)
+        internal static byte GetOV(char op)
         {
             switch (op)
             {

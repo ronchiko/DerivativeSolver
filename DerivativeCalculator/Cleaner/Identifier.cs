@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DerivativeCalculator
 {
-    public struct Identifier
+    internal struct Identifier
     {
         private string _base;
         private string power;

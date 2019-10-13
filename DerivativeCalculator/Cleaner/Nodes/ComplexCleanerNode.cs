@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DerivativeCalculator
 {
-    public class ComplexCleanerNode : IComputableCleanerNode
+    internal class ComplexCleanerNode : IComputableCleanerNode
     {
         private List<ICleanerNode> subNodes;
         private IComputableCleanerNode powerNode;
@@ -33,6 +33,18 @@ namespace DerivativeCalculator
                 return true;
             }
             return false;
+        }
+
+        public bool BodyEquals(ComplexCleanerNode n)
+        {
+            if (subNodes.Count != n.subNodes.Count) return false;
+
+            for (int i = 0; i < subNodes.Count; i++)
+            {
+                if (!subNodes[i].IsEqual(n.subNodes[i]))
+                    return false;
+            }
+            return true;
         }
 
         public void IterateOverComputables(System.Action<IComputableCleanerNode, int> action)
@@ -103,6 +115,25 @@ namespace DerivativeCalculator
 
         public ICleanerNode Divide(ICleanerNode a)
         {
+            if(a.GetType() == typeof(ComplexCleanerNode))
+            {
+                if (a.IsEqual(this))
+                {
+                    return new CleanerNode(1, CleanerOperatorNode.NO_ID);
+                }
+
+                ComplexCleanerNode ccna = (ComplexCleanerNode)a;
+
+                if (BodyEquals(ccna))
+                {
+                    ComplexCleanerNode n = new ComplexCleanerNode(subNodes.ToArray());
+                    IComputableCleanerNode cpn = powerNode == null ? new CleanerNode(1, CleanerOperatorNode.NO_ID) : powerNode;
+                    IComputableCleanerNode apn = powerNode == null ? new CleanerNode(1, CleanerOperatorNode.NO_ID) : ccna.powerNode;
+
+                    n.powerNode = (IComputableCleanerNode)cpn.Sub(apn);
+                    return n;
+                }
+            }
             return new ComplexCleanerNode(this, new CleanerOperatorNode('/'), a);
         }
 

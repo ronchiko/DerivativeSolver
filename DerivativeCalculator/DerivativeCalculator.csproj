@@ -36,6 +36,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="api\ArithmaticFunction.cs" />
+    <Compile Include="api\ArithmaticFunctionDerivativeMode.cs" />
     <Compile Include="Cleaner\Cleaner.cs" />
     <Compile Include="Cleaner\Nodes\CleanerNode.cs" />
     <Compile Include="Cleaner\Nodes\CleanerOperatorNode.cs" />

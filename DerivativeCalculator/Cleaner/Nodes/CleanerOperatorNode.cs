@@ -2,7 +2,7 @@
 
 namespace DerivativeCalculator
 {
-    public class CleanerOperatorNode : ICleanerNode
+    internal class CleanerOperatorNode : ICleanerNode
     {
         public static readonly Identifier[] NO_ID = new Identifier[0];
 

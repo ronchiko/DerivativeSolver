@@ -2,16 +2,17 @@
 
 namespace DerivativeCalculator
 {
-    public class Program
+    internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Cleaner.Clean("7/(x+5)^9"));
+            ArithmaticFunction function = new ArithmaticFunction("3x");
 
-            Console.WriteLine("Enter a function");
-            string fnc = "(3+2x)^2";
+            Console.WriteLine(function.Function);
+            Console.WriteLine(function.Derivative);
+            Console.WriteLine(function.SecondDerivative);
 
-            Console.WriteLine(DerivativeSolver.GetDerivative(fnc));
+            Console.WriteLine(ArithmaticFunction.SolveWithX(function.Function, 8));
 
             Console.Read();
         }
