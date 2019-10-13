@@ -2,7 +2,7 @@
 {
     public interface ICleanerNode
     {
-        
+        bool IsEqual(ICleanerNode other);
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ namespace DerivativeCalculator
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(Cleaner.Clean("2*x^(x+2)+2*x*x"));
+            Console.WriteLine(Cleaner.Clean("7/(x+5)^9"));
 
             Console.WriteLine("Enter a function");
             string fnc = "(3+2x)^2";

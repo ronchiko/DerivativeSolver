@@ -11,7 +11,7 @@ namespace DerivativeCalculator
 
             INode root = CreateNode(func);
 
-            return root.GetDerivative();
+            return Cleaner.Clean(root.GetDerivative());
         }
 
         private static INode CreateNode(string func)

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DerivativeCalculator
 {
@@ -17,7 +13,7 @@ namespace DerivativeCalculator
             this.type = type;
         }
 
-        public bool IsEquals(ICleanerNode n)
+        public bool IsEqual(ICleanerNode n)
         {
             if(typeof(CleanerOperatorNode) == n.GetType())
             {

@@ -30,33 +30,50 @@ namespace DerivativeCalculator
             return Identifier.CanAdd(a.identifiers, b.identifiers);
         }
 
+        public bool IsEqual(ICleanerNode n)
+        {
+            if (n.GetType() != typeof(CleanerNode)) return false;
+
+            CleanerNode cnn = (CleanerNode)n;
+
+            if (value != cnn.value || identifiers.Length != cnn.identifiers.Length)
+                return false;
+
+            for (int i = 0; i < identifiers.Length; i++)
+            {
+                if (!identifiers[i].IsEqual(cnn.identifiers[i])) return false;
+            }
+
+            return true;
+        }
+
         public static CleanerNode operator *(CleanerNode a, CleanerNode b)
         {
             if(b.powerNode == null)
-                return new CleanerNode(a.value * b.value, Identifier.Multiply(a.identifiers,b.identifiers), a.powerNode);
+                return new CleanerNode(a.value * b.value, Identifier.Multiply(a.identifiers,b.identifiers));
             if (a.powerNode == null)
-                return new CleanerNode(a.value * b.value, Identifier.Multiply(a.identifiers, b.identifiers), b.powerNode);
-            throw new NotImplementedException();
+                return new CleanerNode(a.value * b.value, Identifier.Multiply(a.identifiers, b.identifiers));
+            return new CleanerNode(a.value * b.value, Identifier.Multiply(a.identifiers, b.identifiers), null);
         }
         public static CleanerNode operator /(CleanerNode a, CleanerNode b)
         {
             if (b.powerNode == null)
-                return new CleanerNode(a.value / b.value, Identifier.Divide(a.identifiers, b.identifiers), a.powerNode);
+                return new CleanerNode(a.value / b.value, Identifier.Divide(a.identifiers, b.identifiers));
             if (a.powerNode == null)
-                return new CleanerNode(a.value / b.value, Identifier.Multiply(a.identifiers, b.identifiers), b.powerNode);
-            throw new NotImplementedException();
+                return new CleanerNode(a.value / b.value, Identifier.Divide(a.identifiers, b.identifiers));
+            return new CleanerNode(a.value / b.value, Identifier.Divide(a.identifiers, b.identifiers), null);
         }
 
         public static CleanerNode operator +(CleanerNode a, CleanerNode b)
         {
             if (!CanAdd(a, b)) throw new Exception(string.Format("Cannot add {0} and {1}.", a.ToString(), b.ToString()));
-            return new CleanerNode(a.value + b.value, a.identifiers, a.powerNode);
+            return new CleanerNode(a.value + b.value, a.identifiers);
         }
         public static CleanerNode operator -(CleanerNode a, CleanerNode b)
         {
             if (!CanAdd(a, b)) throw new Exception(string.Format("Cannot add {0} and {1}.", a.ToString(), b.ToString()));
 
-            return new CleanerNode(a.value - b.value, a.identifiers, a.powerNode);
+            return new CleanerNode(a.value - b.value, a.identifiers);
         }
 
         public static CleanerNode operator ^(CleanerNode a, CleanerNode b)
@@ -67,7 +84,21 @@ namespace DerivativeCalculator
             }
 
             CleanerNode n = new CleanerNode(a.value, a.identifiers);
-            n.powerNode = b;
+            for (int i = 0; i < a.identifiers.Length; i++)
+            {
+                n.identifiers[i] = new Identifier(a.identifiers[i].Base, 
+                    string.Format("{0}*{1}",a.identifiers[i].Power,b.ToString()));
+            }
+            return n;
+        }
+        public static CleanerNode operator ^(CleanerNode a, ComplexCleanerNode b)
+        {
+            CleanerNode n = new CleanerNode(a.value, a.identifiers);
+            for (int i = 0; i < a.identifiers.Length; i++)
+            {
+                n.identifiers[i] = new Identifier(a.identifiers[i].Base,
+                    string.Format("{0}*{1}", a.identifiers[i].Power, b.ToString()));
+            }
             return n;
         }
 
@@ -84,16 +115,17 @@ namespace DerivativeCalculator
             if(value != 1) sb.Append(value);
             for (int i = 0; i < identifiers.Length; i++)
             {
+                identifiers[i].CleanPower();
                 sb.Append(identifiers[i]);
             }
 
-            if(powerNode != null)
+            /*if(powerNode != null)
             {
                 if(powerNode.GetType() == typeof(CleanerNode))
                     sb.Append(string.Format("^{0}", powerNode));
                 else
                     sb.Append(string.Format("^({0})", powerNode));
-            }
+            }*/
 
             return sb.ToString();
         }
@@ -145,6 +177,9 @@ namespace DerivativeCalculator
             if (CN_TYPE == b.GetType())
             {
                 return this / (CleanerNode)b;
+            }else if(typeof(ComplexCleanerNode) == b.GetType())
+            {
+                return new ComplexCleanerNode(this, new CleanerOperatorNode('/'), b);
             }
             throw new NotImplementedException();
         }
@@ -155,9 +190,8 @@ namespace DerivativeCalculator
             {
                 return this ^ (CleanerNode)a;
             }else if(a.GetType() == typeof(ComplexCleanerNode))
-            {
-                powerNode = a;
-                return this;
+            {              
+                return this ^ (ComplexCleanerNode)a;
             }
             throw new NotImplementedException();
         }

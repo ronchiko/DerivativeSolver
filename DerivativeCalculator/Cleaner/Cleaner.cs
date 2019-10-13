@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DerivativeCalculator
 {
@@ -52,7 +50,8 @@ namespace DerivativeCalculator
                     IComputableCleanerNode n1 = s.Count > 0 ? (IComputableCleanerNode)s.Pop() : null;
                     IComputableCleanerNode n2 = s.Count > 0 ? (IComputableCleanerNode)s.Pop() : null;
 
-                    s.Push(operatorNode.Execute(n2, n1));
+                    ICleanerNode n = operatorNode.Execute(n2, n1);
+                    s.Push(n);
                 }
                 else{
                     s.Push(node);
@@ -82,7 +81,7 @@ namespace DerivativeCalculator
                             break;
                         case ')':
                             
-                            while(s.Count > 0 && !checker.IsEquals(s.Peek()))
+                            while(s.Count > 0 && !checker.IsEqual(s.Peek()))
                             {
                                 q.Enqueue(s.Pop());
                             }
@@ -90,7 +89,7 @@ namespace DerivativeCalculator
                             break;
                         default:
                             byte ov = GetOV(exp[i]);
-                            while (s.Count > 0 && !checker.IsEquals(s.Peek()) && GetOV(s.Peek()) >= ov)
+                            while (s.Count > 0 && !checker.IsEqual(s.Peek()) && GetOV(s.Peek()) >= ov)
                             {
                                 q.Enqueue(s.Pop());
                             }
